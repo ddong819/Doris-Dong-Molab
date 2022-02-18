@@ -1,0 +1,95 @@
+//
+//  ContentView.swift
+//  Shared
+//
+//  Created by   dongyunqi on 2022/2/18.
+//
+
+
+import SwiftUI
+
+
+struct ContentView: View {
+    
+    //try to change emojis to museum images
+    @State var emojis=["😆","😉","😘","😋","🤪","🧐","😎","🥸","🥺","😥","🤫","🤥","🤑"]
+    
+    
+    @State var emojiCount=1
+
+    
+    var body: some View {
+        VStack{
+            
+            Text("CARD").foregroundColor(Color.blue).padding(0.1).font(.title)
+        VStack{
+            ScrollView{
+LazyVGrid(columns:[GridItem(),GridItem()]){ ForEach(emojis[0..<emojiCount], id: \.self){
+                emoji in CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
+            }
+                
+}}
+        }
+
+            Spacer ()
+            VStack{
+            Button(action:{
+                emojiCount += 2
+            } ,label:{
+                Image(systemName: "plus.circle").resizable()
+                    .frame(width:40, height: 40)
+                
+            })
+        
+                
+            
+            Button(action:{emojiCount -= 2},label:{
+              Image(systemName: "minus.circle").resizable()
+                    .frame(width:40, height: 40)
+                
+            })
+            }
+            .padding(.horizontal)
+        }
+      
+        .padding(.horizontal)
+        .foregroundColor(.white)
+    
+         
+    }
+    
+    
+    
+    struct  CardView: View {
+        var content: String
+       @State var isFaceUp: Bool = true
+        
+        
+        var body: some View {
+            ZStack{
+                let shape=RoundedRectangle(cornerRadius: 20.00)
+                if isFaceUp {
+                    shape.fill().foregroundColor(.pink)
+                    shape.stroke(lineWidth:5)
+                    Text(content).font(.largeTitle)
+                         //text content
+                } else {
+                    shape.fill()
+                }
+            }
+            .onTapGesture {
+                isFaceUp = !isFaceUp
+            }
+            
+        }
+    }
+
+
+
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
+      ContentView()
+  }
+}
+
+}
